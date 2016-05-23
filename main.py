@@ -79,6 +79,18 @@ class MainHandler(BaseHandler):
         return self.render_template("hello.html")
 
 
+    def post(self):
+        email = self.request.get("email")
+        geslo = self.request.get("geslo")
+
+        uporabnik = Uporabnik.query(Uporabnik.email == email).get()
+
+        if Uporabnik.preveri_geslo(original_geslo=geslo, uporabnik=uporabnik):
+            self.ustvari_cookie(uporabnik=uporabnik)
+            self.redirect("/prikazi_vsa_sporocila")
+        else:
+            self.redirect("/login")
+
 
 class RegistracijaHandler(BaseHandler):
    def get(self):
@@ -94,7 +106,7 @@ class RegistracijaHandler(BaseHandler):
        if geslo == ponovno_geslo:
            Uporabnik.ustvari(ime=ime, priimek=priimek, email=email, original_geslo=geslo)
            return self.redirect_to("/hello")
-               # koda za shranitev Uporabnika v bazo
+
 
 class LoginHandler(BaseHandler):
     def get(self):
@@ -107,14 +119,11 @@ class LoginHandler(BaseHandler):
         uporabnik = Uporabnik.query(Uporabnik.email == email).get()
 
         if Uporabnik.preveri_geslo(original_geslo=geslo, uporabnik=uporabnik):
-            self.ustvari_cookie(uporabnik=uporabnik)
-            return self.redirect_to("main")
+             self.ustvari_cookie(uporabnik=uporabnik)
+             return self.redirect_to("main")
         else:
             return self.write("NO NO :(")
 
-class BmailHandler(BaseHandler):
-    def get(self):
-        return self.render_template("bmail.html")
 
 
 
@@ -217,11 +226,10 @@ class IzbrisiSporociloHandler(BaseHandler):
         self.redirect("/prikazi_vsa_sporocila")
 
 app = webapp2.WSGIApplication([
-   webapp2.Route('/', MainHandler, name="main"),
-   webapp2.Route('/bmail', BmailHandler),
+   webapp2.Route('/', MainHandler),
+   webapp2.Route('/login', LoginHandler),
    webapp2.Route('/registracija', RegistracijaHandler),
    webapp2.Route('/poslano', PosljiSporociloHandler),
-   webapp2.Route('/login', LoginHandler),
    webapp2.Route('/vreme', WeatherHandler),
    webapp2.Route('/prikazi_vsa_sporocila', PrikaziSporocilaHandler),
    webapp2.Route('/sporocilo/<sporocilo_id:\d+>', PosameznoSporociloHandler),

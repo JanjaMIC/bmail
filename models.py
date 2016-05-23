@@ -5,14 +5,13 @@ from google.appengine.ext import ndb
 
 class Uporabnik(ndb.Model):
     ime = ndb.StringProperty()
-    priimek = ndb.StringProperty()
     email = ndb.StringProperty()
     sifrirano_geslo = ndb.StringProperty()
 
 
     @classmethod
     def ustvari(cls, ime, priimek, email, original_geslo):
-        uporabnik = cls(ime=ime, priimek=priimek, email=email, sifrirano_geslo=original_geslo)
+        uporabnik = cls(ime=ime, email=email, sifrirano_geslo=original_geslo)
         uporabnik.put()
         return uporabnik
 

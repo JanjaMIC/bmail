@@ -25,25 +25,37 @@
 
 <div class="container">
     
-    <div class="jumbotron">
+    <div class="jumbotron1">
         <h3>Registracija novega uporabnika</h3>
-
-
-
-
-</div>
     </div>
+    
+<form action="/prikazi_vsa_sporocila" method="post">
+<form class="form-inline">
+    
+    <div class="form-group">
+    <label for="Janez_Novak">Ime</label>
+    <input type="text" name="ime" class="form-control" id="exampleInputname" placeholder="Janez Novak">
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputEmail2">Email</label>
+    <input type="email" name="email" class="form-control" id="exampleInputEmail2" placeholder="janez.novak@example.com">
+  </div>
+          <div class="form-group">
+    <label for="exampleInputName2">Geslo</label>
+    <input type="pasword" class="form-control" id="xxr2332" placeholder="vpiši geslo" name="geslo" >
+  </div>
+    
+              <div class="form-group">
+    <label for="exampleInputName2">Ponovi geslo</label>
+    <input type="pasword" class="form-control" id="xxr2332" placeholder="vpiši ponovno svoje  geslo" name="ponovno_geslo" >
+  </div>
+  <button type="submit" class="btn btn-default" a href="/prikazi_vsa_sporocila">Logiraj me</button>
+</form> 
+</form>
 
 
-        <form action="/registracija" method="post">
-            <input placeholder="Vnesi svoje ime" name="ime"> <br><br>
-            <input placeholder="Vnesi svoj priimek" name="priimek"> <br><br>
-            <input placeholder="Vnesi svoj email" name="email" type="email"> <br><br>
-            <input placeholder="Vnesi svoje geslo" name="geslo" type="password"> <br><br>
-            <input placeholder="Ponovno vnesi geslo" name="ponovno_geslo" type="password"> <br><br>
-
-            <button type="submit">Registriraj se</button>
-        </form>
+    </div>
 </body>
 
 

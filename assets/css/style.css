@@ -5,4 +5,27 @@ body {
 .jumnbotron {
 	position: center;
 	text-align: center;
+    padding: 100px;
+}
+
+
+
+
+.gumb_ja {
+    object-position: center;
+    text-align: center;
+    color: blueviolet;
+}
+
+.gumb5 {
+    text-align: center;
+    object-position: center;
+}
+
+.gumb6 {
+    text-align: center;
+}
+
+.gumb7 {
+    text-align: center;
 }

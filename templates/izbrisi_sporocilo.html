@@ -3,24 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    
+    
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="/assets/css/style.css">
+    
 </head>
 <body>
+    <div class="containter">
 <div class="jumbotron">
-    <h1>Ali  želite izbrisati sporocilo?</h1>
+    <h3>Ali  želite izbrisati sporocilo?</h3>
 
 
     <form method="post" action="/sporocilo/{{ sporocilo.key.id() }}/izbrisi">
 
         <div class="gumb4">
         <br>
-        <p>
-             <button type="submit" a href="/prikazi_vnose">Da</button>
-        </p>
+        
+            <div class="gumb_ja">
+             <button type="submit" a href="/prikazi_vsa_sporocila">Da</button>
+            </div>
+        
         <br>
         <p>S klikom na gumb bo sporočilo za vedno izbrisano.</p>
         </div>
 
      </form>
+</div>
 </div>
 </body>
 </html>

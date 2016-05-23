@@ -21,21 +21,59 @@
 </head>
 <body>
 
-
-<h1>Bmail</h1>
-
+<div class="container">
+<div class="jumbotron">
+  <h1>Živjo!</h1>
+ <p>Tukaj lahko pošiljaš in sprejemaš sporočila ter pregleduješ svoja prejeta in poslana sporočila</p>
+</div>
+    </div>
 {% if logiran %}
-    <form action="/bmail" method="post">
-        <input name="title" type="text" placeholder="Title">
-        <br>
-        <textarea name="text" placeholder="Leave your message" rows="25">
-        <br>
-            <button type="submit">Submit</button>
-        </form>
+<div class="container">    
+    <form action="/" method="post">
+    <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1">Zadeva:</span>
+    <input type="text" class="form-control" placeholder="Zadeva" aria-describedby="basic-addon1">
+    </div> 
+    
+     <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1">Vsebina</span>
+    <input type="text" class="form-control" placeholder="vsebina" rows="500" aria-describedby="basic-addon1">
+        
+    
+    </div> 
+    <br>
+    <button type="submit">Submit</button>
+        
+            <div class="poslanas">
+        <p><a href="/prikazi_vsa_sporocila">Seznam poslanih sporocil</a>
+            </p>
+
+    </div>
+
+
+
+    <div class="prejetas">
+        <p><a href="/prikazi_vsa_sporocila">Seznam prejetih sporocil</a>
+            </p>
+
+    </div>    
+    
+    </form>  
+    </div>  
     {% else %}
-            Če želiš uporabljati GuestBook se prosim <a href="/login">logiraj tu</a>. Če uporabniškega računa še nimaš,
-            se <a href="/registracija">registriraj</a>.
+    <div class="log">
+        <div class="container">
+            <p>Če želiš uporabljati Bmail se prosim <a href="/login">logiraj tu.</a></p> 
+                <p>Če uporabniškega računa še nimaš,
+                se <a href="/registracija">registriraj.</a> </p>
+        </div>
+        </div>    
+    <br><br>
+    <div class="container">
+    <p>Če te zanima vreme v Londonu, ga najdeš <a href="/vreme"> tu.</a></p>
+    </div>
     {% endif %}
+
 </body>
 
 </html>

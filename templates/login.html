@@ -1,21 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+ <html lang="en">
+ <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="/assets/css/style.css">  
+     
+     
+     <title>Login/Prijavi se</title>
+ </head>
+ 
 <body>
+    <div class=container>
     <div class="jumbotron">
-        <a href="/">Domov</a> | <a href="/registracija">Registracija</a>
+       <a href="/">Domov</a> | <a href="/registracija">Registracija</a>
+ 
+        <h3>Login / prijava uporabnika</h3>
+     </div>
 
-        <h1>Login / prijava uporabnika</h1>
+<form action="/login" method="post">
+<form class="form-inline">
 
-        <form action="/login" method="post">
-            <input placeholder="Vnesi svoj email" name="email" type="email"> <br>
-            <input placeholder="Vnesi svoje geslo" name="geslo" type="password"> <br>
+  <div class="form-group">
+    <label for="exampleInputEmail2">Email</label>
+    <input type="email" name="email" class="form-control" id="exampleInputEmail2" placeholder="janez.novak@example.com">
+  </div>
+          <div class="form-group">
+    <label for="exampleInputName2">Geslo</label>
+    <input type="text" class="form-control" id="exampleInputName2" placeholder="vpiši geslo" name="geslo" type="password">
+  </div>
+  <button type="submit" class="btn btn-default" a href="/hello">Logiraj me</button>
+</form> 
+</form>
+    </div>
+     
+ </body>
+ </html> 
 
-            <button type="submit">Logiraj se</button>
-        </form>
-    </div>>
-</body>
-</html>
+
