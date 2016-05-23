@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Uredi sporocilo</h1>
+
+        <form method="post" action="/sporocilo/{{ sporocilo.key.id() }}/uredi">
+
+            <div class="container">
+
+        <div class="jumbotron">
+        <h1>Dragi filmofil!</h1>
+         <p>Tu lahko urejaš svoja sporocila!</p>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="naslov">
+        <span class="input-group-addon" id="basic-addon1">Naslov filma</span>
+        <input type="text" name="naslov" value="{{ sporocilo.naslov}}" class="form-control" placeholder="naslov filma (vpiši originalni naslov)" aria-describedby="basic-addon1">
+        </div>
+
+        <br>
+        <br>
+
+        <div class="ocena_filma">
+                <span class="input-group-addon" id="basic-addon1">Ocena filma</span>
+                <input type="integer" name="ocena" value="{{ sporocilo.ocena }}" class="form-control" placeholder="(vpiši oceno od 1 do 5)" aria-describedby="basic-addon1">
+        </div>
+
+        <br>
+        <br>
+
+        <div class="ocenjevalec_filma">
+                <span class="input-group-addon" id="basic-addon1">Ime ocenjevalca</span>
+                <input type="text" name="ocenjevalec" value="{{ sporocilo.ocenjevalec}}" class="form-control" placeholder="(prosimo, zaupajte nam se vase ime ali nickname)" aria-describedby="basic-addon1">
+
+        </div>
+
+        <br>
+        <br>
+
+          <div class="mnenje_film">
+                <span class="input-group-addon" id="basic-addon1">Mnenje o filmu</span>
+                <input type="text" name = "mnenje" value="{{ sporocilo.mnenje }}" class="form-control" placeholder="(opišite film in vaše mnenje o njem)" aria-describedby="basic-addon1">
+
+        <br>
+        <br>
+
+                <div class="slika_film">
+                <span class="input-group-addon" id="basic-addon1">Pripni povezavo do fotografije o filmu</span>
+                <input type="text" name = "slika" value="{{ sporocilo.slika }}" class="form-control" placeholder="skopiraj adress name do fotografije" aria-describedby="basic-addon1">
+        <br>
+
+                    <div class="gumb1">
+                    <p>
+            <button type="submit" >Shrani spremembo</button>
+                    </p>
+                    </div>
+        </div>
+        </div>
+
+            </div>
+
+    </form>
+
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="nadnaslov">
+    <h1>PREGLED VSEH SPOROCIL</h1>
+        <br>
+
+        <br>
+    </div>
+
+
+    {% for sporocilo in vsa_sporocila %}
+            <p>
+
+    <div class="zadeva">
+        <span class="input-group-addon" id="basic-addon1" position="center"><h2><b> Zadeva: {{ sporocilo.zadeva }} </b></h2>
+        </span>
+    </div>
+
+            <br>
+
+
+    <div class="vsebina">
+        <span position="center">Ocena: {{ sporocilo.vsebina }}
+        </span>
+    </div>
+
+            <br>
+
+    <div class="idprejemnika">
+        <span> ZA: {{ sporocilo.idprejemnika }}
+        </span>
+    </div>
+
+
+    <div class="idposiljatelja">
+        <span> OD: {{ sporocilo.idposiljatelja }}
+        </span>
+    </div>
+
+
+
+            <br>
+
+    <div class="podrobnost">
+    <a href="/sporocilo/{{ sporocilo.key.id() }}">Podrobnosti</a>
+    </div>
+
+            <br>
+
+
+    {% endfor %}
+
+    <div class="gumb3">
+    <p><button><a href="/bmail">Ustvari novo sporocilo</a></button></p>
+    </div>
+
+
+</body>
+</html>

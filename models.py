@@ -8,11 +8,11 @@ class Uporabnik(ndb.Model):
     priimek = ndb.StringProperty()
     email = ndb.StringProperty()
     sifrirano_geslo = ndb.StringProperty()
-    slika = ndb.StringProperty()
+
 
     @classmethod
-    def ustvari(cls, ime, priimek, slika, email, original_geslo):
-        uporabnik = cls(ime=ime, priimek=priimek, slika=slika, email=email, sifrirano_geslo=original_geslo)
+    def ustvari(cls, ime, priimek, email, original_geslo):
+        uporabnik = cls(ime=ime, priimek=priimek, email=email, sifrirano_geslo=original_geslo)
         uporabnik.put()
         return uporabnik
 
@@ -35,9 +35,9 @@ class Uporabnik(ndb.Model):
 
 
 
-class Sporocilo(ndb.Model):
-    naslov = ndb.StringProperty()
+class Mail(ndb.Model):
+    zadeva = ndb.StringProperty()
     vsebina = ndb.StringProperty()
-    idposiljatelja = ndb.StringProperty()  # to nbe bo string"
-    idprejemnika = ndb.StringProperty()  # to ne bo string
+    idposiljatelja = ndb.StringProperty()
+    idprejemnika = ndb.StringProperty()
     ustvarjeno = ndb.DateTimeProperty(auto_now_add=True)

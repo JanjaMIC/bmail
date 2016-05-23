@@ -2,11 +2,17 @@
 import os
 import jinja2
 import webapp2
-from models import Uporabnik
+import cgi
+from google.appengine.ext import ndb
+from models import Uporabnik, Mail
 from datetime import datetime
 from secret import secret
-from models import Sporocilo
-from google.appengine.api import users
+import json
+import hmac
+import time
+import hashlib
+from google.appengine.api import urlfetch
+
 
 
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
@@ -52,7 +58,7 @@ class BaseHandler(webapp2.RequestHandler):
         else:
             return False
 
-        def render_template(self, view_filename, params=None):
+    def render_template(self, view_filename, params=None):
             if not params:
                 params = {}
 
@@ -66,9 +72,13 @@ class BaseHandler(webapp2.RequestHandler):
             template = jinja_env.get_template(view_filename)
             self.response.out.write(template.render(params))
 
+
+
 class MainHandler(BaseHandler):
     def get(self):
         return self.render_template("hello.html")
+
+
 
 class RegistracijaHandler(BaseHandler):
    def get(self):
@@ -77,14 +87,13 @@ class RegistracijaHandler(BaseHandler):
    def post(self):
        ime = self.request.get("ime")
        priimek = self.request.get("priimek")
-       slika = self.reqest.get("slika")
        email = self.request.get("email")
        geslo = self.request.get("geslo")
        ponovno_geslo = self.request.get("ponovno_geslo")
 
        if geslo == ponovno_geslo:
            Uporabnik.ustvari(ime=ime, priimek=priimek, email=email, original_geslo=geslo)
-           return self.redirect_to("main")
+           return self.redirect_to("/hello")
                # koda za shranitev Uporabnika v bazo
 
 class LoginHandler(BaseHandler):
@@ -108,11 +117,116 @@ class BmailHandler(BaseHandler):
         return self.render_template("bmail.html")
 
 
+
+class WeatherHandler(BaseHandler):
+    def get(self):
+        url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk&units=metric&appid=2456c1752bcf16c3b326651ac10cf0ac"
+        
+        result = urlfetch.fetch(url)
+        
+        podatki = json.loads(result.content)
+        
+        params = {"podatki": podatki}
+        
+        self.render_template("vreme.html", params)
+
+
+class PosljiSporociloHandler(BaseHandler):
+    def popravi_input(self, spremenljivka):
+        return cgi.escape(spremenljivka)
+
+
+    def post(self):
+        zadeva = self.request.get("zadeva")
+        vsebina = self.request.get("vsebina")
+        email = self.request.get("email")
+
+        sporocilo = Mail(zadeva=zadeva, vsebina=vsebina, email=email)
+        sporocilo.put()
+
+        view_vars = {"zadeva": zadeva, "vsebina": vsebina, "email": email}
+
+        return self.render_template("poslano.html", view_vars)
+
+
+class PrikaziSporocilaHandler(BaseHandler):
+    def get(self):
+        vsa_sporocila = Mail.query().order(Mail.ustvarjeno).fetch()
+
+        view_vars = {
+            "vsa_sporocila": vsa_sporocila
+        }
+
+        return self.render_template("prikazi_vsa_sporocila.html", view_vars)
+
+
+class PosameznoSporociloHandler(BaseHandler):
+    def get(self, sporocilo_id):
+        sporocilo = Mail.get_by_id(int(sporocilo_id))
+
+        view_vars = {
+            "sporocilo": sporocilo
+        }
+
+        return self.render_template("posamezno_sporocilo.html", view_vars)
+
+
+class UrediSporociloHandler(BaseHandler):
+    def get(self, sporocilo_id):
+        sporocilo = Mail.get_by_id(int(sporocilo_id))
+
+        view_vars = {
+            "sporocilo": sporocilo
+        }
+
+        return self.render_template("uredi_sporocilo.html", view_vars)
+
+    def post(self, sporocilo_id):
+        sporocilo = Mail.get_by_id(int(sporocilo_id))
+        sporocilo.zadeva = self.request.get("zadeva")
+        sporocilo.vsebina = int(self.request.get("vsebina"))
+        sporocilo.idprejemnika = self.request.get("idprejemnika")
+        sporocilo.put()
+
+        self.redirect("/sporocilo/" + sporocilo_id)
+
+
+    def post(self, sporocilo_id):
+        sporocilo = Mail.get_by_id(int(sporocilo_id))
+        sporocilo.zadeva = self.request.get("zadeva")
+        sporocilo.vsebina = int(self.request.get("vsebina"))
+        sporocilo.idprejemnika = self.request.get("idprejemnika")
+        sporocilo.put()
+
+        self.redirect("/sporocilo/" + int(sporocilo_id))
+
+class IzbrisiSporociloHandler(BaseHandler):
+    def get(self, sporocilo_id):
+        sporocilo = Mail.get_by_id(int(sporocilo_id))
+
+        view_vars = {
+            "sporocilo": sporocilo
+        }
+
+        return self.render_template("izbrisi_sporocilo.html", view_vars)
+
+    def post(self, sporocilo_id):
+        sporocilo = Mail.get_by_id(int(sporocilo_id))
+        sporocilo.key.delete()
+
+        self.redirect("/prikazi_vsa_sporocila")
+
 app = webapp2.WSGIApplication([
    webapp2.Route('/', MainHandler, name="main"),
    webapp2.Route('/bmail', BmailHandler),
    webapp2.Route('/registracija', RegistracijaHandler),
+   webapp2.Route('/poslano', PosljiSporociloHandler),
    webapp2.Route('/login', LoginHandler),
+   webapp2.Route('/vreme', WeatherHandler),
+   webapp2.Route('/prikazi_vsa_sporocila', PrikaziSporocilaHandler),
+   webapp2.Route('/sporocilo/<sporocilo_id:\d+>', PosameznoSporociloHandler),
+   webapp2.Route('/sporocilo/<sporocilo_id:\d+>/uredi', UrediSporociloHandler),
+   webapp2.Route('/sporocilo/<sporocilo_id:\d+>/izbrisi', IzbrisiSporociloHandler),
 ], debug=True)
 
 

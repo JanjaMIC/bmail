@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div class="nadnaslov">
+    <h1>Pregled posameznih sporočil</h1>
+        <br>
+
+        <br>
+    </div>
+
+   <div class="idprejemnika">
+        <span >Mnenje: {{ sporocilo.idprejemnika }}
+        </span>
+    </div>
+
+
+    <div class="zadeva">
+        <span class="input-group-addon" id="basic-addon1" position="center"><h2><b> {{ sporocilo.zadeva }} </b></h2>
+        </span>
+    </div>
+
+            <br>
+
+
+    <div class="vsebina">
+        <span position="center">Vsebina: {{ sporocilo.vsebina }}
+        </span>
+    </div>
+
+            <br>
+
+
+
+            <br>
+
+
+  <div class="ustvarjeno">
+        <span >Ustvarjeno: {{ sporocilo.ustvarjeno }}
+        </span>
+    </div>
+
+            <br>
+    <div class="gumb5">
+    <p><button><a href="/sporocilo/{{ sporocilo.key.id() }}/uredi">Uredi sporocilo</a></button></p>
+    </div>
+    <br>
+    <div class="gumb6">
+    <p><button><a href="/sporocilo/{{ sporocilo.key.id() }}/izbrisi">Izbrisi sporocilo</a></button></p>
+    </div>
+    <br>
+
+    <div class="gumb7">
+    <p><button><a href="/prikazi_vsa_sporocila">Prikazi vsa sporocila</a></button></p>
+    </div>
+
+
+</body>
+</html>
