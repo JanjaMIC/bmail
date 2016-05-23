@@ -10,6 +10,7 @@ from secret import secret
 import json
 import hmac
 import time
+import datetime
 import hashlib
 from google.appengine.api import urlfetch
 
@@ -98,14 +99,13 @@ class RegistracijaHandler(BaseHandler):
 
    def post(self):
        ime = self.request.get("ime")
-       priimek = self.request.get("priimek")
        email = self.request.get("email")
        geslo = self.request.get("geslo")
        ponovno_geslo = self.request.get("ponovno_geslo")
 
        if geslo == ponovno_geslo:
-           Uporabnik.ustvari(ime=ime, priimek=priimek, email=email, original_geslo=geslo)
-           return self.redirect_to("/hello")
+           Uporabnik.ustvari(ime=ime, email=email, original_geslo=geslo)
+           return self.redirect_to("/")
 
 
 class LoginHandler(BaseHandler):
@@ -116,13 +116,13 @@ class LoginHandler(BaseHandler):
         email = self.request.get("email")
         geslo = self.request.get("geslo")
 
-        uporabnik = Uporabnik.query(Uporabnik.email == email).get()
+        uporabnik = Uporabnik.gql("WHERE email='" + email +"'").get()
 
         if Uporabnik.preveri_geslo(original_geslo=geslo, uporabnik=uporabnik):
-             self.ustvari_cookie(uporabnik=uporabnik)
-             return self.redirect_to("main")
+            self.ustvari_cookie(uporabnik=uporabnik)
+            self.redirect("/")
         else:
-            return self.write("NO NO :(")
+            self.write("NO NO :(")
 
 
 
@@ -141,23 +141,27 @@ class WeatherHandler(BaseHandler):
 
 
 class PosljiSporociloHandler(BaseHandler):
-    def popravi_input(self, spremenljivka):
-        return cgi.escape(spremenljivka)
+    def get(self):
+        return self.render_template("poslano.html")
 
 
     def post(self):
         zadeva = self.request.get("zadeva")
         vsebina = self.request.get("vsebina")
         email = self.request.get("email")
-
-        sporocilo = Mail(zadeva=zadeva, vsebina=vsebina, email=email)
+        zadeva = cgi.escape(zadeva)
+        vsebina = cgi.escape(vsebina)
+#patricija
+        cookie_value = self.request.cookies.get("uid")
+        idposiljatelja, _, _ = cookie_value.split(":")
+        idposiljatelja = int(idposiljatelja)
+        prejemnik = Uporabnik.gql("WHERE email='"+ email +"'").get()
+        idprejemnika = prejemnik.key.id()
+        sporocilo = Mail(idprejemnika=idprejemnika, idposiljatelja=idposiljatelja, email=email,zadeva=zadeva, vsebina=vsebina)
         sporocilo.put()
 
-        view_vars = {"zadeva": zadeva, "vsebina": vsebina, "email": email}
-
-        return self.render_template("poslano.html", view_vars)
-
-
+        self.redirect("/prikazi_vsa_sporocila")
+#patricija
 class PrikaziSporocilaHandler(BaseHandler):
     def get(self):
         vsa_sporocila = Mail.query().order(Mail.ustvarjeno).fetch()

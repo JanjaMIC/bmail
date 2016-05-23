@@ -30,6 +30,12 @@
 {% if logiran %}
 <div class="container">    
     <form action="/" method="post">
+
+     <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1">Email:</span>
+    <input type="email" class="form-control" placeholder="email" aria-describedby="basic-addon1">
+    </div>
+
     <div class="input-group">
     <span class="input-group-addon" id="basic-addon1">Zadeva:</span>
     <input type="text" class="form-control" placeholder="Zadeva" aria-describedby="basic-addon1">
@@ -38,9 +44,9 @@
      <div class="input-group">
     <span class="input-group-addon" id="basic-addon1">Vsebina</span>
     <input type="text" class="form-control" placeholder="vsebina" rows="500" aria-describedby="basic-addon1">
-        
-    
-    </div> 
+    </div>
+
+
     <br>
     <button type="submit">Submit</button>
         

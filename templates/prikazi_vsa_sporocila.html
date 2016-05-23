@@ -3,10 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
 
-<div class="nadnaslov">
+<div class="container">
     <h1>PREGLED VSEH SPOROCIL</h1>
         <br>
 
@@ -16,50 +27,52 @@
 
     {% for sporocilo in vsa_sporocila %}
             <p>
-
-    <div class="zadeva">
-        <span class="input-group-addon" id="basic-addon1" position="center"><h2><b> Zadeva: {{ sporocilo.zadeva }} </b></h2>
-        </span>
-    </div>
-
-            <br>
-
-
-    <div class="vsebina">
-        <span position="center">Vsebina: {{ sporocilo.vsebina }}
-        </span>
-    </div>
-
-            <br>
-
-    <div class="idprejemnika">
-        <span> ZA: {{ sporocilo.idprejemnika }}
+<div class="container">
+    <div class="jumbotron">
+        <div class="idprejemnika">
+        <span> Za: {{ sporocilo.idprejemnika }}
         </span>
     </div>
 
 
     <div class="idposiljatelja">
-        <span> OD: {{ sporocilo.idposiljatelja }}
+        <span> Od: {{ sporocilo.idposiljatelja }}
+        </span>
+    </div>
+    <div class="zadeva">
+         <span><h6><b> Zadeva: {{ sporocilo.zadeva }} </b></h6>
         </span>
     </div>
 
-
-
-            <br>
-
-    <div class="podrobnost">
+        
+         <div class="podrobnost">
     <a href="/sporocilo/{{ sporocilo.key.id() }}">Podrobnosti</a>
     </div>
 
+    </div>
             <br>
 
+   
+            <br>
+
+            <div class="poslanas">
+        <p><a href="/prikazi_vsa_sporocila">Seznam poslanih sporocil</a>
+            </p>
+
+    </div>
+
+
+
+    <div class="prejetas">
+        <p><a href="/prikazi_vsa_sporocila">Seznam prejetih sporocil</a>
+            </p>
 
     {% endfor %}
 
     <div class="gumb3">
     <p><button><a href="/bmail">Ustvari novo sporocilo</a></button></p>
     </div>
-
+    </div>
 
 </body>
 </html>
