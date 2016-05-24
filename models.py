@@ -11,8 +11,7 @@ class Uporabnik(ndb.Model):
 
     @classmethod
     def ustvari(cls, ime, email, original_geslo):
-        sifra = cls.sifriraj_geslo(original_geslo)
-        uporabnik = cls(ime=ime, email=email, sifrirano_geslo=sifra)
+        uporabnik = cls(ime=ime, email=email, sifrirano_geslo=cls.sifriraj_geslo(original_geslo=original_geslo))
         uporabnik.put()
         return uporabnik
 

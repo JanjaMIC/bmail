@@ -88,14 +88,14 @@ class MainHandler(BaseHandler):
 
         if Uporabnik.preveri_geslo(original_geslo=geslo, uporabnik=uporabnik):
             self.ustvari_cookie(uporabnik=uporabnik)
-            self.redirect("/prikazi_vsa_sporocila")
+            self.redirect("prikazi_vsa_sporocila.html")
         else:
-            self.redirect("/login")
+            self.redirect("registracija.html")
 
 
 class RegistracijaHandler(BaseHandler):
    def get(self):
-       return self.render_template("registracija.html")
+       self.render_template("registracija.html")
 
    def post(self):
        ime = self.request.get("ime")
@@ -105,12 +105,12 @@ class RegistracijaHandler(BaseHandler):
 
        if geslo == ponovno_geslo:
            Uporabnik.ustvari(ime=ime, email=email, original_geslo=geslo)
-           return self.redirect_to("/")
+           self.redirect_to("login.html")
 
 
 class LoginHandler(BaseHandler):
     def get(self):
-        return self.render_template("login.html")
+        self.render_template("login.html")
 
     def post(self):
         email = self.request.get("email")
@@ -120,7 +120,7 @@ class LoginHandler(BaseHandler):
 
         if Uporabnik.preveri_geslo(original_geslo=geslo, uporabnik=uporabnik):
             self.ustvari_cookie(uporabnik=uporabnik)
-            self.redirect("/")
+            self.redirect("prikazi_vsa_sporocila.html")
         else:
             self.write("NO NO :(")
 
@@ -142,7 +142,7 @@ class WeatherHandler(BaseHandler):
 
 class PosljiSporociloHandler(BaseHandler):
     def get(self):
-        return self.render_template("poslano.html")
+        self.render_template("poslano.html")
 
 
     def post(self):
@@ -160,7 +160,7 @@ class PosljiSporociloHandler(BaseHandler):
         sporocilo = Mail(idprejemnika=idprejemnika, idposiljatelja=idposiljatelja, email=email,zadeva=zadeva, vsebina=vsebina)
         sporocilo.put()
 
-        self.redirect("/prikazi_vsa_sporocila")
+        self.redirect("prikazi_vsa_sporocila.html")
 #patricija
 class PrikaziSporocilaHandler(BaseHandler):
     def get(self):
@@ -170,7 +170,7 @@ class PrikaziSporocilaHandler(BaseHandler):
             "vsa_sporocila": vsa_sporocila
         }
 
-        return self.render_template("prikazi_vsa_sporocila.html", view_vars)
+        self.render_template("prikazi_vsa_sporocila.html", view_vars)
 
 
 class PosameznoSporociloHandler(BaseHandler):
@@ -181,7 +181,7 @@ class PosameznoSporociloHandler(BaseHandler):
             "sporocilo": sporocilo
         }
 
-        return self.render_template("posamezno_sporocilo.html", view_vars)
+        self.render_template("posamezno_sporocilo.html", view_vars)
 
 
 class UrediSporociloHandler(BaseHandler):
@@ -192,7 +192,7 @@ class UrediSporociloHandler(BaseHandler):
             "sporocilo": sporocilo
         }
 
-        return self.render_template("uredi_sporocilo.html", view_vars)
+        self.render_template("uredi_sporocilo.html", view_vars)
 
     def post(self, sporocilo_id):
         sporocilo = Mail.get_by_id(int(sporocilo_id))
@@ -221,13 +221,13 @@ class IzbrisiSporociloHandler(BaseHandler):
             "sporocilo": sporocilo
         }
 
-        return self.render_template("izbrisi_sporocilo.html", view_vars)
+        self.render_template("izbrisi_sporocilo.html", view_vars)
 
     def post(self, sporocilo_id):
         sporocilo = Mail.get_by_id(int(sporocilo_id))
         sporocilo.key.delete()
 
-        self.redirect("/prikazi_vsa_sporocila")
+        self.redirect("prikazi_vsa_sporocila.html")
 
 app = webapp2.WSGIApplication([
    webapp2.Route('/', MainHandler),
